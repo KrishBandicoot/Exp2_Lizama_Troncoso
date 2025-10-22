@@ -14,7 +14,6 @@ const Login = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Si ya está autenticado, redirigir al dashboard
     if (isAuthenticated()) {
       navigate('/dashboard');
     }
@@ -52,63 +51,88 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Tienda Virtual
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Inicia sesión para acceder al panel de administración
-          </p>
+    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-4">
+            <div className="card shadow-lg">
+              <div className="card-body p-5">
+                <div className="text-center mb-4">
+                  <i className="bi bi-shop text-primary" style={{ fontSize: '3rem' }}></i>
+                  <h2 className="mt-3 mb-2 fw-bold">Tienda Virtual</h2>
+                  <p className="text-muted">Panel de Administración</p>
+                </div>
+                
+                <form onSubmit={handleSubmit}>
+                  {error && (
+                    <div className="alert alert-danger d-flex align-items-center" role="alert">
+                      <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                      <div>{error}</div>
+                    </div>
+                  )}
+                  
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">
+                      <i className="bi bi-envelope me-1"></i>
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="correo@ejemplo.com"
+                      required
+                      disabled={loading}
+                    />
+                  </div>
+                  
+                  <div className="mb-4">
+                    <label htmlFor="password" className="form-label">
+                      <i className="bi bi-lock me-1"></i>
+                      Contraseña
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="••••••••"
+                      required
+                      disabled={loading}
+                    />
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100 py-2"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Iniciando sesión...
+                      </>
+                    ) : (
+                      <>
+                        <i className="bi bi-box-arrow-in-right me-2"></i>
+                        Iniciar Sesión
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+            
+            <div className="text-center mt-3">
+              <small className="text-muted">© 2025 Tienda Virtual. Todos los derechos reservados.</small>
+            </div>
+          </div>
         </div>
-        
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="rounded-md bg-red-50 p-4">
-              <div className="text-sm text-red-700">{error}</div>
-            </div>
-          )}
-          
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">Email</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Contraseña</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Contraseña"
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   );

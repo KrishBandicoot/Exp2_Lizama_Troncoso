@@ -54,10 +54,12 @@ const Dashboard = () => {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Cargando dashboard...</p>
+            <div className="spinner-border text-primary spinner-border-custom" role="status">
+              <span className="visually-hidden">Cargando...</span>
+            </div>
+            <p className="mt-3 text-muted">Cargando dashboard...</p>
           </div>
         </div>
       </>
@@ -67,181 +69,164 @@ const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
+      <div className="min-vh-100 bg-light py-4">
+        <div className="container">
+          <h1 className="mb-4 fw-bold">
+            <i className="bi bi-speedometer2 me-2"></i>
+            Dashboard
+          </h1>
           
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>
               {error}
+              <button type="button" className="btn-close" onClick={() => setError(null)}></button>
             </div>
           )}
           
-          {/* Estadísticas */}
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-8">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
+          <div className="row g-4 mb-4">
+            <div className="col-md-4">
+              <div className="card border-0 shadow-sm h-100">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="flex-shrink-0">
+                      <i className="bi bi-box-seam text-primary" style={{ fontSize: '2.5rem' }}></i>
+                    </div>
+                    <div className="flex-grow-1 ms-3">
+                      <h6 className="text-muted mb-1">Total de Productos</h6>
+                      <h2 className="mb-0 fw-bold">{stats.totalProductos}</h2>
+                    </div>
                   </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total de Productos
-                      </dt>
-                      <dd className="text-3xl font-semibold text-gray-900">
-                        {stats.totalProductos}
-                      </dd>
-                    </dl>
-                  </div>
+                  <Link to="/productos" className="btn btn-outline-primary btn-sm w-100">
+                    Ver todos <i className="bi bi-arrow-right ms-1"></i>
+                  </Link>
                 </div>
-              </div>
-              <div className="bg-gray-50 px-5 py-3">
-                <Link to="/productos" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                  Ver todos →
-                </Link>
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
+            <div className="col-md-4">
+              <div className="card border-0 shadow-sm h-100">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="flex-shrink-0">
+                      <i className="bi bi-people text-success" style={{ fontSize: '2.5rem' }}></i>
+                    </div>
+                    <div className="flex-grow-1 ms-3">
+                      <h6 className="text-muted mb-1">Total de Usuarios</h6>
+                      <h2 className="mb-0 fw-bold">{stats.totalUsuarios}</h2>
+                    </div>
                   </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total de Usuarios
-                      </dt>
-                      <dd className="text-3xl font-semibold text-gray-900">
-                        {stats.totalUsuarios}
-                      </dd>
-                    </dl>
-                  </div>
+                  <Link to="/usuarios" className="btn btn-outline-success btn-sm w-100">
+                    Ver todos <i className="bi bi-arrow-right ms-1"></i>
+                  </Link>
                 </div>
-              </div>
-              <div className="bg-gray-50 px-5 py-3">
-                <Link to="/usuarios" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                  Ver todos →
-                </Link>
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
+            <div className="col-md-4">
+              <div className="card border-0 shadow-sm h-100 border-start border-danger border-4">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="flex-shrink-0">
+                      <i className="bi bi-exclamation-triangle text-danger" style={{ fontSize: '2.5rem' }}></i>
+                    </div>
+                    <div className="flex-grow-1 ms-3">
+                      <h6 className="text-muted mb-1">Stock Crítico</h6>
+                      <h2 className="mb-0 fw-bold text-danger">{stats.productosStockBajo}</h2>
+                    </div>
                   </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Productos Stock Bajo
-                      </dt>
-                      <dd className="text-3xl font-semibold text-red-600">
-                        {stats.productosStockBajo}
-                      </dd>
-                    </dl>
+                  <div className="text-muted small">
+                    <i className="bi bi-info-circle me-1"></i>
+                    Menos de 5 unidades
                   </div>
-                </div>
-              </div>
-              <div className="bg-gray-50 px-5 py-3">
-                <div className="text-sm font-medium text-gray-500">
-                  Menos de 5 unidades
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Productos con stock bajo */}
           {lowStockProducts.length > 0 && (
-            <div className="bg-white shadow rounded-lg mb-8">
-              <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
+            <div className="card border-0 shadow-sm mb-4">
+              <div className="card-header bg-white border-bottom">
+                <h5 className="mb-0">
+                  <i className="bi bi-exclamation-triangle-fill text-danger me-2"></i>
                   Alertas de Stock Crítico
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Productos que requieren atención inmediata
-                </p>
+                </h5>
+                <p className="text-muted small mb-0">Productos que requieren atención inmediata</p>
               </div>
-              <ul className="divide-y divide-gray-200">
+              <div className="list-group list-group-flush">
                 {lowStockProducts.map((producto) => (
-                  <li key={producto.id} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center min-w-0 flex-1">
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center">
-                            <p className="text-sm font-medium text-gray-900 truncate">
-                              {producto.nombre}
-                            </p>
-                            <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                              Stock: {producto.stock}
-                            </span>
-                          </div>
-                          <p className="mt-1 text-sm text-gray-500">
-                            {producto.categoria?.nombre || 'Sin categoría'}
-                          </p>
-                        </div>
+                  <div key={producto.id} className="list-group-item list-group-item-action">
+                    <div className="d-flex w-100 justify-content-between align-items-center">
+                      <div>
+                        <h6 className="mb-1">{producto.nombre}</h6>
+                        <small className="text-muted">
+                          {producto.categoria?.nombre || 'Sin categoría'}
+                        </small>
                       </div>
-                      <div className="ml-5 flex-shrink-0">
+                      <div className="text-end">
+                        <span className="badge bg-danger mb-2">
+                          <i className="bi bi-exclamation-circle me-1"></i>
+                          Stock: {producto.stock}
+                        </span>
+                        <br />
                         <Link
                           to={`/productos/editar/${producto.id}`}
-                          className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
+                          className="btn btn-sm btn-outline-primary"
                         >
-                          Actualizar stock
+                          Actualizar
                         </Link>
                       </div>
                     </div>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           )}
 
-          {/* Accesos rápidos */}
-          <div>
-            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+          <div className="mb-3">
+            <h5 className="fw-bold">
+              <i className="bi bi-lightning-charge me-2"></i>
               Acceso Rápido
-            </h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Link
-                to="/productos"
-                className="relative block p-6 bg-white border border-gray-300 rounded-lg hover:border-indigo-500 hover:shadow-md transition"
-              >
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                  </div>
-                  <div className="ml-4">
-                    <h4 className="text-lg font-medium text-gray-900">Gestión de Productos</h4>
-                    <p className="mt-1 text-sm text-gray-500">Administrar inventario de productos</p>
+            </h5>
+          </div>
+          <div className="row g-3">
+            <div className="col-md-6">
+              <Link to="/productos" className="text-decoration-none">
+                <div className="card border-0 shadow-sm hover-shadow transition">
+                  <div className="card-body p-4">
+                    <div className="d-flex align-items-center">
+                      <div className="flex-shrink-0">
+                        <div className="bg-primary bg-opacity-10 rounded-3 p-3">
+                          <i className="bi bi-box-seam text-primary" style={{ fontSize: '2rem' }}></i>
+                        </div>
+                      </div>
+                      <div className="flex-grow-1 ms-3">
+                        <h5 className="mb-1 fw-bold">Gestión de Productos</h5>
+                        <p className="text-muted mb-0 small">Administrar inventario y productos</p>
+                      </div>
+                      <i className="bi bi-arrow-right text-muted"></i>
+                    </div>
                   </div>
                 </div>
               </Link>
+            </div>
 
-              <Link
-                to="/usuarios"
-                className="relative block p-6 bg-white border border-gray-300 rounded-lg hover:border-indigo-500 hover:shadow-md transition"
-              >
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </div>
-                  <div className="ml-4">
-                    <h4 className="text-lg font-medium text-gray-900">Gestión de Usuarios</h4>
-                    <p className="mt-1 text-sm text-gray-500">Administrar usuarios del sistema</p>
+            <div className="col-md-6">
+              <Link to="/usuarios" className="text-decoration-none">
+                <div className="card border-0 shadow-sm hover-shadow transition">
+                  <div className="card-body p-4">
+                    <div className="d-flex align-items-center">
+                      <div className="flex-shrink-0">
+                        <div className="bg-success bg-opacity-10 rounded-3 p-3">
+                          <i className="bi bi-people text-success" style={{ fontSize: '2rem' }}></i>
+                        </div>
+                      </div>
+                      <div className="flex-grow-1 ms-3">
+                        <h5 className="mb-1 fw-bold">Gestión de Usuarios</h5>
+                        <p className="text-muted mb-0 small">Administrar usuarios del sistema</p>
+                      </div>
+                      <i className="bi bi-arrow-right text-muted"></i>
+                    </div>
                   </div>
                 </div>
               </Link>
