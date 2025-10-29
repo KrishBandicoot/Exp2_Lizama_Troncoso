@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark d-md-none">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Kkarhua</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Kkarhua</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="home-admin.html"><i class="bi bi-grid"></i> Dashboard</a>
+                <a class="nav-link active" href="usuarios-admin.html"><i class="bi bi-person"></i> Usuarios</a>
+                <a class="nav-link" href="register-admin.html"><i class="bi bi-person"></i> Agregar Usuario</a>
+                <a class="nav-link" href="mod-usuario.html"><i class="bi bi-person"></i> Modificar Usuario</a>
+                <a class="nav-link" href="productos-admin.html"><i class="bi bi-box"></i> Productos</a>
+                <a class="nav-link" href="mas-prod.admin.html"><i class="bi bi-box"></i> Agregar Productos</a>
+                <a class="nav-link" href="#"><i class="bi bi-people"></i> Clientes</a>
+                <a class="nav-link" href="#"><i class="bi bi-gear"></i> Configuración</a>
+                <a class="nav-link" href="#"><i class="bi bi-search"></i> Buscar</a>
+                <a class="nav-link" href="#"><i class="bi bi-question-circle"></i> Ayuda</a>
+                <div class="profile-link mt-3"><i class="bi bi-person-circle"></i> <span id="username">Perfil</span></div>
+            </nav>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <div class="logo mb-4">
+                    <i class="bi bi-circle"></i> Kkarhua
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="home-admin.html"><i class="bi bi-grid"></i> Dashboard</a>
+                    <a class="nav-link active" href="usuarios-admin.html"><i class="bi bi-person"></i> Usuarios</a>
+                    <a class="nav-link" href="register-admin.html"><i class="bi bi-person"></i> Agregar Usuario</a>
+                    <a class="nav-link" href="mod-usuario.html"><i class="bi bi-person"></i> Modificar Usuario</a>
+                    <a class="nav-link" href="productos-admin.html"><i class="bi bi-box"></i> Productos</a>
+                    <a class="nav-link" href="mas-prod.admin.html"><i class="bi bi-box"></i> Agregar Productos</a>
+                    <a class="nav-link" href="#"><i class="bi bi-people"></i> Clientes</a>
+                    <a class="nav-link" href="#"><i class="bi bi-gear"></i> Configuración</a>
+                    <a class="nav-link" href="#"><i class="bi bi-search"></i> Buscar</a>
+                    <a class="nav-link" href="#"><i class="bi bi-question-circle"></i> Ayuda</a>
+                    <div class="profile-link mt-3"><i class="bi bi-person-circle"></i> <span id="username">Perfil</span></div>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <h1 class="mt-2 mb-4" style="text-align:center;">Modificar Usuario</h1>
+                <div class="container mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>RUN</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Correo</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Tipo de Usuario</th>
+                                <th>Región</th>
+                                <th>Comuna</th>
+                                <th>Dirección</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-usuarios">
+                        </tbody>
+                    </table>
+                    <form id="form-editar" class="mt-4" style="display:none;">
+                        <h4 class="mb-3" style="text-align:center;">Editar Usuario</h4>
+                        <input type="hidden" id="edit-id">
+                        <div class="mb-2">
+                            <label for="edit-run" class="form-label">RUN</label>
+                            <input type="text" class="form-control" id="edit-run" required minlength="7" maxlength="9" pattern="^[0-9]{7,8}[kK0-9]{1}$" title="Ejemplo: 19011022K">
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="edit-nombre" required maxlength="50">
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-apellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="edit-apellidos" required maxlength="100">
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-correo" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="edit-correo" required maxlength="100"
+                                pattern="^[\w\.-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com)$"
+                                title="Solo se permiten correos @duoc.cl, @profesor.duoc.cl y @gmail.com">
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-fechaNacimiento" class="form-label">Fecha Nacimiento</label>
+                            <input type="date" class="form-control" id="edit-fechaNacimiento">
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-tipoUsuario" class="form-label">Tipo de Usuario</label>
+                            <select class="form-control" id="edit-tipoUsuario" required>
+                                <option value="">Seleccione tipo</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Cliente">Cliente</option>
+                                <option value="Vendedor">Vendedor</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-region" class="form-label">Región</label>
+                            <select class="form-control" id="edit-region" required>
+                                <option value="">Seleccione región</option>
+                                <option value="Región Metropolitana">Región Metropolitana</option>
+                                <option value="Valparaíso">Valparaíso</option>
+                                <option value="Biobío">Biobío</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-comuna" class="form-label">Comuna</label>
+                            <select class="form-control" id="edit-comuna" required>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="edit-direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="edit-direccion" required maxlength="300">
+                        </div>
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-secondary" id="cancelar-edicion">Cancelar</button>
+                    </form>    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/mod-usuario.js"></script>
+</body>
+</html>

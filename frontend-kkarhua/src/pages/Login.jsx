@@ -1,141 +1,80 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { loginUser, isAuthenticated } from '../services/authService';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Navbar } from '../components/Navbar';
+import { Footer } from './Footer';
 
-const Login = () => {
+export const Login = () => {
   const navigate = useNavigate();
-  
   const [formData, setFormData] = useState({
-    email: '',
+    correo: '',
     password: ''
   });
-  
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (isAuthenticated()) {
-      navigate('/dashboard');
-    }
-  }, [navigate]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    setError('');
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
     
-    if (!formData.email || !formData.password) {
-      setError('Por favor complete todos los campos');
-      return;
-    }
+    // Lógica de autenticación
+    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    const usuario = usuarios.find(u => u.correo === formData.correo);
     
-    setLoading(true);
-    
-    try {
-      await loginUser(formData.email, formData.password);
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Credenciales incorrectas. Por favor intente nuevamente.');
-      console.error('Error en login:', err);
-    } finally {
-      setLoading(false);
+    if (usuario && usuario.password === formData.password) {
+      localStorage.setItem('usuarioActual', JSON.stringify(usuario));
+      
+      if (usuario.tipoUsuario === 'Administrador') {
+        navigate('/admin/home');
+      } else {
+        navigate('/home');
+      }
+    } else {
+      alert('Credenciales incorrectas');
     }
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-6 col-lg-4">
-            <div className="card shadow-lg">
-              <div className="card-body p-5">
-                <div className="text-center mb-4">
-                  <i className="bi bi-shop text-primary" style={{ fontSize: '3rem' }}></i>
-                  <h2 className="mt-3 mb-2 fw-bold">Tienda Virtual</h2>
-                  <p className="text-muted">Panel de Administración</p>
-                </div>
-                
-                <form onSubmit={handleSubmit}>
-                  {error && (
-                    <div className="alert alert-danger d-flex align-items-center" role="alert">
-                      <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                      <div>{error}</div>
-                    </div>
-                  )}
-                  
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label">
-                      <i className="bi bi-envelope me-1"></i>
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="correo@ejemplo.com"
-                      required
-                      disabled={loading}
-                    />
-                  </div>
-                  
-                  <div className="mb-4">
-                    <label htmlFor="password" className="form-label">
-                      <i className="bi bi-lock me-1"></i>
-                      Contraseña
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="••••••••"
-                      required
-                      disabled={loading}
-                    />
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-100 py-2"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                        Iniciando sesión...
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-box-arrow-in-right me-2"></i>
-                        Iniciar Sesión
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
+    <>
+      <Navbar />
+      
+      <div style={{ textAlign: 'center', margin: '40px 0' }}>
+        <h1 style={{ fontSize: '3rem', fontWeight: 'bold', color: '#222' }}>Kkarhua</h1>
+      </div>
+
+      <div className="row justify-content-center" style={{ marginTop: '25px' }}>
+        <div className="col-md-4">
+          <form onSubmit={handleSubmit} className="formulario-fondo p-4 rounded">
+            <h3 className="titulo2" style={{ textAlign: 'center', marginBottom: '20px' }}>
+              Iniciar Sesión
+            </h3>
+            
+            <div className="form-group" style={{ marginTop: '10px' }}>
+              <label htmlFor="correo" className="form-label etiqueta">Correo electrónico:</label>
+              <input type="text" className="form-control" id="correo" placeholder="Correo"
+                value={formData.correo}
+                onChange={(e) => setFormData({...formData, correo: e.target.value})}
+                maxLength="100"
+                pattern="^[\w\.-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com)$" />
+            </div>
+
+            <div className="form-group" style={{ marginTop: '10px' }}>
+              <label htmlFor="pass" className="form-label etiqueta">Contraseña:</label>
+              <input type="password" className="form-control" id="pass" placeholder="Contraseña"
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" />
             </div>
             
-            <div className="text-center mt-3">
-              <small className="text-muted">© 2025 Tienda Virtual. Todos los derechos reservados.</small>
+            <div className="text-center mt-4" style={{ marginBottom: '5px' }}>
+              <input type="submit" value="Iniciar Sesión" className="btn btn-outline-success me-2" />
             </div>
+          </form>
+          
+          <div className="text-center mt-3">
+            <p style={{ fontSize: '1rem', marginBottom: '8px' }}>
+              ¿No estás registrado? <Link to="/register" className="btn btn-outline-primary">Registrarse</Link>
+            </p>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
-
-export default Login;
